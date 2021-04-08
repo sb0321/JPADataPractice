@@ -13,6 +13,9 @@ public class Comment {
 
     private String comment;
 
+    @ManyToOne
+    private Post post;
+
     public Long getId() {
         return id;
     }
@@ -36,7 +39,4 @@ public class Comment {
     public void setPost(Post post) {
         this.post = post;
     }
-
-    @ManyToOne
-    private Post post;
 }

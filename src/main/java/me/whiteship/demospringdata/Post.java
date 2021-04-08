@@ -12,8 +12,13 @@ public class Post {
 
     private String title;
 
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.ALL})
     private Set<Comment> comments = new HashSet<>();
+
+    public void addComment(Comment comment) {
+        this.getComments().add(comment);
+        comment.setPost(this);
+    }
 
     public Long getId() {
         return id;
@@ -37,9 +42,5 @@ public class Post {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
-    }
-
-    public void addComment(Comment comment) {
-        comments.add(comment);
     }
 }

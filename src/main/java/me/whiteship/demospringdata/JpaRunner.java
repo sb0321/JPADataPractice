@@ -20,39 +20,25 @@ public class JpaRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
 //        Post post = new Post();
-//        post.setTitle("Spring Data JPA 언제 보나...");
+//        post.setTitle("Spring Data JPA 엔제 보나...");
 //
 //        Comment comment = new Comment();
-//        comment.setComment("빨리 보고 싶다.");
+//        comment.setComment("빨리 보고 싶어요.");
 //        post.addComment(comment);
 //
 //        Comment comment1 = new Comment();
-//        comment1.setComment("곧 보여드릴게요");
+//        comment1.setComment("곧 보여드릴께요.");
 //        post.addComment(comment1);
 
         Session session = entityManager.unwrap(Session.class);
+        Post post = session.get(Post.class, 4l);
+        System.out.println("==========");
+        System.out.println(post.getTitle());
 
-        Post post = session.get(Post.class, 5l);
-        session.delete(post);
+        post.getComments().forEach(c -> {
+            System.out.println("------------");
+            System.out.println(c.getComment());
+        });
 
-//        Account account = new Account();
-//        account.setUsername("keesun2");
-//        account.setPassword("jpa");
-//
-//        Study study = new Study();
-//        study.setName("Spring Data JPA");
-//
-//        account.addStudy(study);
-//
-//        Session session = entityManager.unwrap(Session.class);
-//        session.save(account);
-//        session.save(study);
-//
-//        Account keesun = session.load(Account.class, account.getId());
-//        keesun.setUsername("whiteship");
-//        keesun.setUsername("keesun");
-//        keesun.setUsername("keesun2");
-//        System.out.println("========================");
-//        System.out.println(keesun.getUsername());
     }
 }
