@@ -1,6 +1,5 @@
 package me.whiteship.demospringdata;
 
-import org.hibernate.Session;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -8,6 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Component
 @Transactional
@@ -19,26 +23,13 @@ public class JpaRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-//        Post post = new Post();
-//        post.setTitle("Spring Data JPA 엔제 보나...");
-//
-//        Comment comment = new Comment();
-//        comment.setComment("빨리 보고 싶어요.");
-//        post.addComment(comment);
-//
-//        Comment comment1 = new Comment();
-//        comment1.setComment("곧 보여드릴께요.");
-//        post.addComment(comment1);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Post> query = builder.createQuery(Post.class);
+        Root<Post> root = query.from(Post.class);
+        query.select(root);
 
-        Session session = entityManager.unwrap(Session.class);
-        Post post = session.get(Post.class, 4l);
-        System.out.println("==========");
-        System.out.println(post.getTitle());
-
-        post.getComments().forEach(c -> {
-            System.out.println("------------");
-            System.out.println(c.getComment());
-        });
+        List<Post> posts = entityManager.createQuery(query).getResultList();
+        posts.forEach(System.out::println);
 
     }
 }
